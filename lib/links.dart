@@ -3,6 +3,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:pointycastle/export.dart';
 import 'package:yt_firebase_login/url_extractor.dart';
+import 'package:yt_firebase_login/util.dart';
 
 class Keys {
   String key;
@@ -57,12 +58,41 @@ Future<List<String>> extract(String serverUrl) async {
     var it = document
         .querySelector("script[data-name=\"episode\"]")
         ?.attributes["data-value"];
-    print(it);
-    final keysAndIv = Keys(
-        key: '37911490979715163134003223491201',
-        iv: '3134003223491201');
-    final videoUrl = cryptoHandler(it ?? "", keysAndIv.key, keysAndIv.iv);
-    return [videoUrl];
+
+    final keysAndIv =
+        Keys(key: '37911490979715163134003223491201', iv: '3134003223491201');
+
+    final decrypted = cryptoHandler(it ?? "", keysAndIv.key, keysAndIv.iv)
+        .replaceAll("\t", "");
+
+    final id = findBetween("", "&", decrypted)!;
+    final end = substringAfter(decrypted, id);
+
+    final encryptedId =
+        cryptoHandler(id, keysAndIv.key, keysAndIv.iv, encrypt: true);
+    final encryptedUrl =
+        "https://${url.host}/encrypt-ajax.php?id=$encryptedId$end&alias=$id";
+
+    print(encryptedUrl);
+
+
+    final encrypted = await client.get(
+      Uri.parse(encryptedUrl),
+      headers: {"X-Requested-With": "XMLHttpRequest"},
+    );
+
+    print(encrypted.body);
+
+    final data = findBetween('{"data" :', """/""", encrypted.body);
+
+    print(data);
+
+    final jumbledJson = cryptoHandler(
+            data, "54674138327930866480207815084989", keysAndIv.iv,
+            encrypt: false)
+        .replaceAll("""o"<P{#meme":""", """e":[{"file":""");
+
+    return [jumbledJson];
   }
 
   if (serverUrl.contains('embedplus')) {
