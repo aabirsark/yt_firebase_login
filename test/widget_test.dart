@@ -15,9 +15,8 @@ void main() {
   group("testing api", () {
     // FOR CHECKING THE CODE
     test("extraction", () async {
-      const String url = "https://playtaku.net/streaming.php?id=MjAyNjg5&title=Yuusha+ga+Shinda%21+Episode+2";
+      const String url = "https://playtaku.net/embedplus?id=MjAyNDM3&amp;token=aTChrOzs1WfzteQxreSINg&amp;expires=1682843478";
       final res = await extract(url);
-      print(res);
 
     });
   });
