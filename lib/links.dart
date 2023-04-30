@@ -69,15 +69,15 @@ Future<List<String>> extract(String serverUrl) async {
 
     final id = findBetween("", "&", decrypted)!;
     final end = substringAfter(decrypted, id);
-    print(end);
+    print(id);
 
-    final encryptedId =
-        cryptoHandler(id, keysAndIv.key, keysAndIv.iv, encrypt: true);
+      final encryptedId =
+          cryptoHandler(id, keysAndIv.key, keysAndIv.iv, encrypt: true);
 
     print(encryptedId);
 
     final encryptedUrl =
-        "https://${url.host}/encrypt-ajax.php?id=$encryptedId$end&alias=$id";
+        "https://${url.host}/encrypt-ajax.php?id=$encryptedId$end&refer=none&alias=$id";
 
     print(encryptedUrl);
 
@@ -91,12 +91,12 @@ Future<List<String>> extract(String serverUrl) async {
 
     print(encrypted.body);
 
-    final data = findBetween('{"data" :', """/""", encrypted.body);
+    final data = jsonDecode(encrypted.body);
 
-    print(data);
+    print(data['data']);
 
     final jumbledJson = cryptoHandler(
-            data ?? "", "54674138327930866480207815084989", keysAndIv.iv,
+            data['data'] ?? "", "54674138327930866480207815084989", keysAndIv.iv,
             encrypt: false)
         .replaceAll("""o"<P{#meme":""", """e":[{"file":""");
 
