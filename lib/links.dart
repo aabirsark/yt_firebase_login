@@ -64,7 +64,7 @@ Future extract(String serverUrl) async {
 
     print(source.source?[0].file);
 
-    return jumbledJson;
+    return source;
   }
 
   if (serverUrl.contains('embedplus')) {
