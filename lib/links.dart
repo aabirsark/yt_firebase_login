@@ -59,6 +59,8 @@ Future extract(String serverUrl) async {
             encrypt: false)
         .replaceAll("""o"<P{#meme":""", """e":[{"file":""");
 
+  print(jumbledJson);
+
     // CONVERT IT INTO DART CODE
     final source = Sources.fromJson(jsonDecode(jumbledJson));
 

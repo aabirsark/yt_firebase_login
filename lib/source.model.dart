@@ -1,13 +1,11 @@
 class Sources {
   List<Source>? source; 
   Track? track;
-  List<String>? advertising;
   String? linkiframe;
 
   Sources(
       {this.source,
       this.track,
-      this.advertising,
       this.linkiframe});
 
   Sources.fromJson(Map<String, dynamic> json) {
@@ -18,13 +16,7 @@ class Sources {
       });
     }
    
-    track = json['track'] != null ?  Track.fromJson(json['track']) : null;
-    if (json['advertising'] != null) {
-      advertising = <String>[];
-      json['advertising'].forEach((v) {
-        advertising!.add(v);
-      });
-    }
+   
     linkiframe = json['linkiframe'];
   }
 
@@ -37,9 +29,7 @@ class Sources {
     if (track != null) {
       data['track'] = track!.toJson();
     }
-    if (advertising != null) {
-      data['advertising'] = advertising!.map((v) => v).toList();
-    }
+   
     data['linkiframe'] = linkiframe;
     return data;
   }

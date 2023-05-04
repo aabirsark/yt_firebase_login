@@ -15,7 +15,7 @@ void main() {
   group("testing api", () {
     // FOR CHECKING THE CODE
     test("extraction", () async {
-      const String url = "https://playtaku.net/embedplus?id=MjAyNDM3&amp;token=aTChrOzs1WfzteQxreSINg&amp;expires=1682843478";
+      const String url = "https://playtaku.net/streaming.php?id=MTQ1Njk=&title=Dragon+Ball+Episode+144";
       final res = await extract(url);
 
     });
