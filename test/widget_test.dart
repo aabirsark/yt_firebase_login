@@ -10,13 +10,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:yt_firebase_login/links.dart';
 
 import 'package:yt_firebase_login/main.dart';
+import 'package:yt_firebase_login/stream_sb.dart';
 
 void main() {
   group("testing api", () {
     // FOR CHECKING THE CODE
     test("extraction", () async {
-      const String url = "https://playtaku.net/streaming.php?id=MTQ1Njk=&title=Dragon+Ball+Episode+144";
-      final res = await extract(url);
+      const String url = "https://sbone.pro/e/vhiaofwkvd1i";
+      final res = await extractStreamSB(url);
 
     });
   });
