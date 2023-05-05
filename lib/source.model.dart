@@ -1,7 +1,11 @@
+import 'package:yt_firebase_login/stream_header.dart';
+
 class Sources {
   List<Source>? source; 
   Track? track;
   String? linkiframe;
+  StreamHeader? header; 
+
 
   Sources(
       {this.source,

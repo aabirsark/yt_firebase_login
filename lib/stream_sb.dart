@@ -1,6 +1,7 @@
 import "dart:convert";
 
 import "package:http/http.dart" as http;
+import "package:yt_firebase_login/stream_header.dart";
 import "package:yt_firebase_login/stream_sb_source.dart";
 import "package:yt_firebase_login/util.dart";
 
@@ -21,13 +22,18 @@ extractStreamSB(String url) async {
   // getting link
   final json = await http.get(uri, headers: {"watchsb": "sbstream"});
 
-  final streamSource = StreamSBSource.fromJson(jsonDecode(json.body));
+ 
 
-  if (streamSource.statusCode != 200){
-    throw  Exception(['Bad url format' ,'possible things : bad url format , bad server response' ]);
+  final streamSource = StreamSBSource.fromJson(jsonDecode(json.body));
+  streamSource.header = StreamHeader.fromJson(json.headers);
+
+  if (streamSource.statusCode != 200) {
+    throw Exception([
+      'Bad url format',
+      'possible things : bad url format , bad server response'
+    ]);
   }
 
-  print(streamSource.streamData?.file);
 
   // imp note !!!! use these headers when making video request to this url
   //   Map<String, String> defaultHeaders = {

@@ -16,8 +16,8 @@ void main() {
   group("testing api", () {
     // FOR CHECKING THE CODE
     test("extraction", () async {
-      const String url = "https://sbone.pro/e/vhiaofwkvd1i";
-      final res = await extractStreamSB(url);
+      const String url = "https://playtaku.net/streaming.php?id=MzUzOA==&title=Naruto+Shippuden+Episode+290";
+      final res = await extract(url);
 
     });
   });

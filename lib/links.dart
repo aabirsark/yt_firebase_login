@@ -3,6 +3,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:pointycastle/export.dart';
 import 'package:yt_firebase_login/source.model.dart';
+import 'package:yt_firebase_login/stream_header.dart';
 import 'package:yt_firebase_login/url_extractor.dart';
 import 'package:yt_firebase_login/util.dart';
 
@@ -59,12 +60,12 @@ Future extract(String serverUrl) async {
             encrypt: false)
         .replaceAll("""o"<P{#meme":""", """e":[{"file":""");
 
-  print(jumbledJson);
+
 
     // CONVERT IT INTO DART CODE
     final source = Sources.fromJson(jsonDecode(jumbledJson));
+    source.header = StreamHeader.fromJson(encrypted.headers);
 
-    print(source.source?[0].file);
 
     return source;
   }

@@ -1,6 +1,9 @@
+import 'package:yt_firebase_login/stream_header.dart';
+
 class StreamSBSource {
   int? statusCode;
   StreamData? streamData;
+  StreamHeader? header; 
 
   StreamSBSource({this.statusCode, this.streamData,});
 
