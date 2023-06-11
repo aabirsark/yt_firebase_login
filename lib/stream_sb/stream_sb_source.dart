@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'dart:convert';
 
 import 'package:yt_firebase_login/stream_sb/stream_header.dart';
 
@@ -81,4 +84,83 @@ class StreamData {
     data['bitrate'] = bitrate;
     return data;
   }
+}
+
+
+
+class Response {
+  final ResponseObject stream_data;
+
+  Response({required this.stream_data});
+
+  
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'stream_data': stream_data.toMap(),
+    };
+  }
+
+  factory Response.fromMap(Map<String, dynamic> map) {
+    return Response(
+      stream_data: ResponseObject.fromMap(map['stream_data'] as Map<String,dynamic>),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Response.fromJson(String source) => Response.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+class ResponseObject {
+  final String file;
+  final List<Subtitle>? subs;
+
+  ResponseObject({required this.file, this.subs});
+
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'file': file,
+      'subs': subs?.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory ResponseObject.fromMap(Map<String, dynamic> map) {
+    return ResponseObject(
+      file: map['file'] as String,
+      subs: map['subs'] != null ? List<Subtitle>.from((map['subs'] as List<int>).map<Subtitle?>((x) => Subtitle.fromMap(x as Map<String,dynamic>),),) : null,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ResponseObject.fromJson(String source) => ResponseObject.fromMap(json.decode(source) as Map<String, dynamic>);
+}
+
+class Subtitle {
+  final String label;
+  final String file;
+
+  Subtitle({required this.label, required this.file});
+
+  
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'label': label,
+      'file': file,
+    };
+  }
+
+  factory Subtitle.fromMap(Map<String, dynamic> map) {
+    return Subtitle(
+      label: map['label'] as String,
+      file: map['file'] as String,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Subtitle.fromJson(String source) => Subtitle.fromMap(json.decode(source) as Map<String, dynamic>);
 }

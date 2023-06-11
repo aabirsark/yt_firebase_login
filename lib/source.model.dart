@@ -1,40 +1,34 @@
-
 import 'package:yt_firebase_login/stream_sb/stream_header.dart';
 
 class Sources {
-  List<Source>? source; 
+  List<Source>? source;
   Track? track;
   String? linkiframe;
-  StreamHeader? header; 
+  StreamHeader? header;
 
-
-  Sources(
-      {this.source,
-      this.track,
-      this.linkiframe});
+  Sources({this.source, this.track, this.linkiframe});
 
   Sources.fromJson(Map<String, dynamic> json) {
     if (json['source'] != null) {
       source = <Source>[];
       json['source'].forEach((v) {
-        source!.add( Source.fromJson(v));
+        source!.add(Source.fromJson(v));
       });
     }
-   
-   
+
     linkiframe = json['linkiframe'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (source != null) {
       data['source'] = source!.map((v) => v.toJson()).toList();
     }
-    
+
     if (track != null) {
       data['track'] = track!.toJson();
     }
-   
+
     data['linkiframe'] = linkiframe;
     return data;
   }
@@ -54,7 +48,7 @@ class Source {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['file'] = file;
     data['label'] = label;
     data['type'] = type;
@@ -65,19 +59,19 @@ class Source {
 class Track {
   List<Tracks>? tracks;
 
-  Track({this.tracks});
+  Track(String s, label, {this.tracks});
 
   Track.fromJson(Map<String, dynamic> json) {
     if (json['tracks'] != null) {
       tracks = <Tracks>[];
       json['tracks'].forEach((v) {
-        tracks!.add( Tracks.fromJson(v));
+        tracks!.add(Tracks.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (tracks != null) {
       data['tracks'] = tracks!.map((v) => v.toJson()).toList();
     }
@@ -97,7 +91,7 @@ class Tracks {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['file'] = file;
     data['kind'] = kind;
     return data;

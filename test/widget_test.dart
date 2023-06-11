@@ -12,6 +12,7 @@ import 'package:yt_firebase_login/links.dart';
 
 import 'package:yt_firebase_login/main.dart';
 import 'package:yt_firebase_login/stream_sb/stream_sb.dart';
+import 'package:yt_firebase_login/stream_sb/stream_sb_source_link.dart';
 
 void main() {
   group("testing api", () {
@@ -25,8 +26,8 @@ void main() {
     test("extraction streamSB", () async {
       const String url = "https://sbani.pro/e/qoiyrfuui0w5";
 
-      final res = await extractStreamSB(url);
-
+      final res = await videosData(url, {}, manualData: true, common: true);
+      print(res);
     });
 
     test("extraction doodstream", () async {
