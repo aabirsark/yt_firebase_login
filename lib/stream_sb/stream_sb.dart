@@ -13,11 +13,6 @@ extractStreamSB(String url) async {
   final jsonLink =
       "https://sbani.pro/375664356a494546326c4b797c7c6e756577776778623171737/${encode(id)}";
 
-  // getting streamSB URL
-  final source = await http.get(Uri.parse(
-      "https://raw.githubusercontent.com/saikou-app/mal-id-filler-list/main/sb.txt"));
-  final sourceURL = source.body.trim();
-
   // Getting the video info
   final uri = Uri.parse(jsonLink);
 
@@ -40,6 +35,8 @@ extractStreamSB(String url) async {
   //   Map<String, String> defaultHeaders = {
   //   "User-Agent": "Mozilla/5.0 (Linux; Android ${Platform.operatingSystemVersion}; ${Platform.operatingSystem} ${Platform.version}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Mobile Safari/537.36"
   // };
+
+  print(streamSource.streamData?.file);
 
   return streamSource;
 }

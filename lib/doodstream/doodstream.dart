@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:http/http.dart' as http;
+import 'package:yt_firebase_login/doodstream/dood_source.dart';
 
 String _getRandomString({int length = 10}) {
   final allowedChars = List<String>.from([
@@ -43,7 +44,7 @@ extractDoodstream(
     if (content.isEmpty || !content.contains("'/pass_md5/")) {
       return null;
     }
-    
+
     final md5 = _substringBefore(_substringAfter(content, "'/pass_md5/"), "',");
     final token = _substringAfterLast(md5, '/');
     final randomString = _getRandomString();
@@ -58,7 +59,15 @@ extractDoodstream(
 
     final videoUrl = '$videoUrlStart$randomString?token=$token&expiry=$expiry';
 
-    return videoUrl;
+    return DoodstreamSource(
+        url: newUrl,
+        quality: newQuality,
+        videoUrl: videoUrl,
+        headers: {
+          "User-Agent": "Aniyomi",
+          "Referer": "https://dood.$doodTld/"
+        });
+        
   } catch (e) {
     return null;
   }

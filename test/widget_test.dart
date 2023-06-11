@@ -24,7 +24,9 @@ void main() {
 
     test("extraction streamSB", () async {
       const String url = "https://sbani.pro/e/qoiyrfuui0w5";
+
       final res = await extractStreamSB(url);
+
     });
 
     test("extraction doodstream", () async {
