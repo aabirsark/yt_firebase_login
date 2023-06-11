@@ -12,7 +12,7 @@ import 'package:yt_firebase_login/links.dart';
 
 import 'package:yt_firebase_login/main.dart';
 import 'package:yt_firebase_login/stream_sb/stream_sb.dart';
-import 'package:yt_firebase_login/stream_sb/stream_sb_source_link.dart';
+import 'package:yt_firebase_login/stream_sb_source16/stream_sb_source_link.dart';
 
 void main() {
   group("testing api", () {
