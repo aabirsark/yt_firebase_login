@@ -7,18 +7,29 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:yt_firebase_login/doodstream/doodstream.dart';
 import 'package:yt_firebase_login/links.dart';
 
 import 'package:yt_firebase_login/main.dart';
-import 'package:yt_firebase_login/stream_sb.dart';
+import 'package:yt_firebase_login/stream_sb/stream_sb.dart';
 
 void main() {
   group("testing api", () {
     // FOR CHECKING THE CODE
-    test("extraction", () async {
-      const String url = "https://playtaku.net/streaming.php?id=MzUzOA==&title=Naruto+Shippuden+Episode+290";
+    test("extraction vidstream", () async {
+      const String url =
+          "https://playtaku.net/streaming.php?id=MzUzOA==&title=Naruto+Shippuden+Episode+290";
       final res = await extract(url);
+    });
 
+    test("extraction streamSB", () async {
+      const String url = "https://sbani.pro/e/qoiyrfuui0w5";
+      final res = await extractStreamSB(url);
+    });
+
+    test("extraction doodstream", () async {
+      const String url = "https://dood.wf/e/8jtwsa1wpwhh";
+      final res = await extractDoodstream(url);
     });
   });
 }

@@ -1,28 +1,30 @@
 import "dart:convert";
+import "dart:math";
 
 import "package:http/http.dart" as http;
-import "package:yt_firebase_login/stream_header.dart";
-import "package:yt_firebase_login/stream_sb_source.dart";
+import "package:yt_firebase_login/stream_sb/stream_header.dart";
+import "package:yt_firebase_login/stream_sb/stream_sb_source.dart";
 import "package:yt_firebase_login/util.dart";
 
 /// For extracting the video from stream SB
 extractStreamSB(String url) async {
   final id = findBetween("/e/", ".html", url) ?? url.split("/e/")[1];
 
+  final jsonLink =
+      "https://sbani.pro/375664356a494546326c4b797c7c6e756577776778623171737/${encode(id)}";
+
   // getting streamSB URL
   final source = await http.get(Uri.parse(
       "https://raw.githubusercontent.com/saikou-app/mal-id-filler-list/main/sb.txt"));
   final sourceURL = source.body.trim();
 
-  final jsonLink = "${bytesToHex(('||$id||||streamsb').codeUnits)}/";
-
   // Getting the video info
-  final uri = Uri.parse("$sourceURL/$jsonLink");
+  final uri = Uri.parse(jsonLink);
 
   // getting link
   final json = await http.get(uri, headers: {"watchsb": "sbstream"});
 
- 
+  print(json);
 
   final streamSource = StreamSBSource.fromJson(jsonDecode(json.body));
   streamSource.header = StreamHeader.fromJson(json.headers);
@@ -34,7 +36,6 @@ extractStreamSB(String url) async {
     ]);
   }
 
-
   // imp note !!!! use these headers when making video request to this url
   //   Map<String, String> defaultHeaders = {
   //   "User-Agent": "Mozilla/5.0 (Linux; Android ${Platform.operatingSystemVersion}; ${Platform.operatingSystem} ${Platform.version}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Mobile Safari/537.36"
@@ -43,14 +44,23 @@ extractStreamSB(String url) async {
   return streamSource;
 }
 
-// CAN ALSO USE package like converter --- this is hardcoded for being performant
-String bytesToHex(List<int> bytes) {
-  const hexDigits = '0123456789ABCDEF';
-  final codeUnits = bytes.map((byte) => byte & 0xff);
-  final hexChars = <String>[];
-  for (final codeUnit in codeUnits) {
-    hexChars.add(hexDigits[(codeUnit >> 4) & 0xf]);
-    hexChars.add(hexDigits[codeUnit & 0xf]);
+String encode(String id) {
+  String code = '${makeId()}||$id||${makeId()}||streamsb';
+  StringBuffer sb = StringBuffer();
+  List<String> arr = code.split('');
+  for (int j = 0; j < arr.length; j++) {
+    sb.write(
+        int.parse(arr[j].codeUnitAt(0).toRadixString(10)).toRadixString(16));
   }
-  return hexChars.join();
+  return sb.toString();
+}
+
+String makeId() {
+  String alphabet =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  StringBuffer sb = StringBuffer();
+  for (int j = 0; j < 12; j++) {
+    sb.write(alphabet[Random().nextInt(alphabet.length)]);
+  }
+  return sb.toString();
 }
